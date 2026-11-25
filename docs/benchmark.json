@@ -1,0 +1,199 @@
+{
+ "suites": {
+  "shop": {
+   "bugsNoticed": 9,
+   "of": 20,
+   "faults": {
+    "caught": 12,
+    "tried": 23,
+    "untrusted": 0,
+    "ms": 323780,
+    "tests": 3
+   }
+  },
+  "thorough": {
+   "bugsNoticed": 17,
+   "of": 20,
+   "faults": {
+    "caught": 22,
+    "tried": 35,
+    "untrusted": 0,
+    "ms": 736009,
+    "tests": 5
+   }
+  },
+  "weak": {
+   "bugsNoticed": 1,
+   "of": 20,
+   "faults": {
+    "caught": 0,
+    "tried": 0,
+    "untrusted": 2,
+    "ms": 1482922,
+    "tests": 2
+   }
+  }
+ },
+ "rows": [
+  {
+   "bug": "search-ignored",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "stock-ignored",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "add-dead",
+   "noticed": {
+    "shop": true,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "wrong-item",
+   "noticed": {
+    "shop": true,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "no-add-message",
+   "noticed": {
+    "shop": true,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "qty-hidden",
+   "noticed": {
+    "shop": true,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "total-qty",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "total-zero",
+   "noticed": {
+    "shop": true,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "remove-dead",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "wrong-name",
+   "noticed": {
+    "shop": true,
+    "thorough": false,
+    "weak": false
+   }
+  },
+  {
+   "bug": "login-error-hidden",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "coupon-dead",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "coupon-no-discount",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "cart-not-cleared",
+   "noticed": {
+    "shop": true,
+    "thorough": false,
+    "weak": false
+   }
+  },
+  {
+   "bug": "order-no-id",
+   "noticed": {
+    "shop": true,
+    "thorough": false,
+    "weak": false
+   }
+  },
+  {
+   "bug": "missing-product",
+   "noticed": {
+    "shop": true,
+    "thorough": true,
+    "weak": true
+   }
+  },
+  {
+   "bug": "price-wrong",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "qty-stuck",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "any-password",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  },
+  {
+   "bug": "any-coupon",
+   "noticed": {
+    "shop": false,
+    "thorough": true,
+    "weak": false
+   }
+  }
+ ]
+}

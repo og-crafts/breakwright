@@ -48,8 +48,9 @@ leave it off unless you mean it.
 app and takes pictures), `node scripts/benchmark.mjs`.
 
 ## Status
-Early. Checked on Linux, and on Windows in a browser; the desktop app is built by CI and hasn't been tried by hand.
-Chromium only so far. Not affiliated with Microsoft or the Playwright project.
+Early, with no release yet. Tests run on Linux, Windows and macOS with Chromium; Firefox and WebKit are untried. CI builds the
+desktop app for all three (unsigned); only its first window on Windows has been tried. A small local model (through
+Ollama, on the demo shop) has been tried with the assistant; give it more than Ollama's 4096-token context for longer work. Not affiliated with Microsoft or the Playwright project.
 
 ## License
 MIT. Made by OGCrafts.

@@ -56,6 +56,11 @@ describe('tools', () => {
     const r = await callTool(ctx(p, { propose: true }), 'propose_repair', { file: F, find: `  await expect(page.getByRole('status')).toHaveText('Welcome Asha')\n`, replace: '', title: 't', why: 'w' })
     expect(r.text).toContain('Flagged'); expect(readFileSync(join(p.root, F), 'utf8')).toBe(before)
   })
+  it('repairs a file with Windows line endings and keeps them', () => {
+    const src = 'a()\r\nb()\r\nc()\r\n'
+    expect(replaceOnce(src, 'a()\nb()\n', 'a()\nx()\n')).toBe('a()\r\nx()\r\nc()\r\n')
+    expect(replaceOnce('a()\nb()\n', 'a()\n', 'x()\n')).toBe('x()\nb()\n')
+  })
   it('refuses sites that are not allowed', async () => expect((await callTool(ctx(fresh(), { sites: ['http://127.0.0.1:1'] }), 'explore_page', { url: 'http://169.254.169.254/' })).text).toContain('allowed sites'))
 })
 describe('locator repair', () => {

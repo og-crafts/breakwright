@@ -25,6 +25,8 @@ export function propose(p: Project, o: { file: string; after: string; title: str
 }
 /** Replace one exact piece of text. */
 export function replaceOnce(src: string, find: string, replace: string) {
+  // Assistants write \n; a file checked out on Windows has \r\n. Match it and keep the file's own line endings.
+  if (src.includes('\r\n')) { const crlf = (x: string) => x.replace(/\r?\n/g, '\r\n'); find = crlf(find); replace = crlf(replace) }
   const n = src.split(find).length - 1
   if (!find || n === 0) throw new Error('The text to replace isn’t in the file.')
   if (n > 1) throw new Error(`The text to replace appears ${n} times. Include more of it.`)

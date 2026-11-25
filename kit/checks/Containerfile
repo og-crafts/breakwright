@@ -1,0 +1,2 @@
+FROM docker.io/library/ubuntu:26.04
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends xvfb webkitgtk-webdriver libwebkit2gtk-4.1-0 libayatana-appindicator3-1 dbus-x11 python3 fonts-dejavu-core ca-certificates procps >/dev/null && rm -rf /var/lib/apt/lists/*

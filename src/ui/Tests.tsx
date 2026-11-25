@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { api, stream } from './api'
 import type { Fail } from './App'
 import { Strip, useJob, VERDICT } from './parts'
 
 const KINDS: [string, string][] = [['goto', 'Open a page'], ['click', 'Click'], ['fill', 'Fill in'], ['press', 'Press a key'], ['check', 'Tick'], ['uncheck', 'Untick'], ['select', 'Choose an option'], ['expect', 'Check'], ['code', 'Code']]
 const MATCHERS = ['toHaveText', 'toContainText', 'toHaveValue', 'toHaveCount', 'toBeVisible', 'toBeHidden', 'toBeEnabled', 'toBeDisabled', 'toBeChecked', 'toHaveURL', 'toHaveTitle', 'toHaveAttribute']
-export function Tests({ st, setSt, fail, showRun }: { st: any; setSt: (s: any) => void; fail: Fail; showRun: (id: string) => void }) {
+export function Tests({ lib, st, setSt, fail, showRun }: { lib: HTMLElement | null; st: any; setSt: (s: any) => void; fail: Fail; showRun: (id: string) => void }) {
   const [specs, setSpecs] = useState<any[] | null>(null), [sel, setSel] = useState<{ file: string; test: string; line: number } | null>(null), [view, setView] = useState<any>(null), [tab, setTab] = useState('steps'), [q, setQ] = useState('')
   const [edit, setEdit] = useState<{ i: number; step: any; insert: boolean } | null>(null), [proof, setProof] = useState<any>(null), [live, setLive] = useState<any>(null), [flake, setFlake] = useState<any>(null), [last, setLast] = useState<any>(null), [src, setSrc] = useState<string | null>(null), [rec, setRec] = useState(false), [profile, setProfile] = useState(''), [profs, setProfs] = useState<any[]>([])
   const job = useJob(fail), trusted = st.project.trusted
@@ -22,11 +23,11 @@ export function Tests({ st, setSt, fail, showRun }: { st: any; setSt: (s: any) =
   const mine = last?.results.find((r: any) => r.title === t?.title && r.file === sel?.file), badLine = mine?.why?.line
   const R = proof && (live ? null : proof)
   return <div className="work">
-    <aside className="side" aria-label="Tests"><div className="stack" style={{ gap: 8 }}><input aria-label="Find a test" placeholder="Find a test" value={q} onChange={(e) => setQ(e.target.value)} /><div className="row"><button disabled={!trusted || !!job.busy} onClick={() => run([])}>Run all</button><button onClick={() => setRec(!rec)}>New test</button></div></div>
+    {lib && createPortal(<div className="side"><div className="stack" style={{ gap: 8 }}><input aria-label="Find a test" placeholder="Find a test" value={q} onChange={(e) => setQ(e.target.value)} /><div className="row"><button disabled={!trusted || !!job.busy} onClick={() => run([])}>Run all</button><button onClick={() => setRec(!rec)}>New test</button></div></div>
       {rec && <NewTest st={st} fail={fail} done={(f) => { setRec(false); load(); if (f) api('spec', { file: f }).then((v) => setSel({ file: f, test: v.tests[0].title, line: v.tests[0].line }), fail) }} profs={profs} />}
       {shown?.map((f) => <div key={f.file}><div className="file">{f.file}</div>{f.error && <p className="small soft" style={{ margin: '0 8px' }}>Can’t be read: {f.error}</p>}{f.tests.map((x: any) => <button key={x.line + x.title} className="titem" aria-current={sel?.file === f.file && sel?.line === x.line} onClick={() => setSel({ file: f.file, test: x.title, line: x.line })}><span>{x.title}</span>{x.proof ? <span className="small soft">{x.proof.old ? 'Changed since it was proved' : `${x.proof.caught} of ${x.proof.tried} faults caught`}</span> : x.weak ? <span className="small" style={{ color: 'var(--warn)' }}>{x.weak} weak spot{x.weak > 1 ? 's' : ''}</span> : null}</button>)}</div>)}
       {specs && !specs.length && <p className="soft" style={{ padding: 8 }}>No tests yet. Choose New test to start one.</p>}
-    </aside>
+    </div>, lib)}
     <section className="main-col stack" style={{ gap: 18 }}>
       {!trusted && <div className="note stack" style={{ gap: 8 }}><h3>Do you trust this project?</h3><p>Running tests runs the project’s own code on this computer. Looking at and editing tests is fine without it.</p><div><button className="main" onClick={() => api('trust').then(setSt, fail)}>Trust and allow running</button></div></div>}
       {job.busy && <div className="row" role="status"><span>{{ run: 'Running…', faults: 'Breaking things, one at a time…', flake: 'Repeating the test…' }[job.busy]}</span><button onClick={job.stop}>Stop</button></div>}

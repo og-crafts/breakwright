@@ -29,8 +29,9 @@ fn start(cli: PathBuf) -> Result<(Child, String), String> {
     match url { Some(u) => Ok((child, u)), None => { let _ = child.kill(); Err("The helper stopped right away. Check that Node.js is version 22.15 or newer.".into()) } }
 }
 fn main() {
-    tauri::Builder::default()
+    ogc_kit::builder()
         .setup(|app| {
+            ogc_kit::setup(app.handle())?;
             let res = app.path().resource_dir()?.join("app/cli.mjs");
             // Windows resource paths can carry a \\?\ prefix that Node can't load as a script.
             let cli = PathBuf::from(res.to_string_lossy().trim_start_matches(r"\\?\").to_string());
@@ -41,7 +42,7 @@ fn main() {
             let home = match &url { WebviewUrl::External(u) => Some(u.origin()), _ => None };
             app.manage(Helper(Mutex::new(child)));
             WebviewWindowBuilder::new(app, "main", url).title("Breakwright").inner_size(1280.0, 820.0).min_inner_size(480.0, 480.0)
-                .on_navigation(move |u| home.as_ref().map_or(true, |h| u.origin() == *h)).build()?;
+                .on_navigation(move |u| home.as_ref().is_none_or(|h| u.origin() == *h)).build()?;
             Ok(())
         })
         .build(tauri::generate_context!()).expect("Breakwright couldn't start")

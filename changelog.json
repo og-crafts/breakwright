@@ -1,0 +1,14 @@
+{
+  "releases": [
+    {
+      "version": "0.1.0",
+      "date": "unreleased",
+      "title": "The first version.",
+      "changes": [
+        "Open a Playwright project, read and edit its tests as steps, and run them.",
+        "**Check with faults** breaks the app one thing at a time and shows which breakages a test misses.",
+        "Look for flakes, record tests, saved sign-ins, and an assistant and MCP that propose changes for you to apply."
+      ]
+    }
+  ]
+}

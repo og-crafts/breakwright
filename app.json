@@ -1,0 +1,11 @@
+{
+  "name": "Breakwright",
+  "slug": "breakwright",
+  "identifier": "cloud.ogcrafts.breakwright",
+  "repo": "og-crafts/breakwright",
+  "site": "https://github.com/og-crafts/breakwright",
+  "tagline": "Know that your browser tests really test something",
+  "accent": "#55c3ab",
+  "private_repo": false,
+  "tests": "node"
+}

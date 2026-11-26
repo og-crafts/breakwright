@@ -1,5 +1,5 @@
 """The desktop window in a virtual display: the shell starts the Node helper, shows its page, and the page has no native commands."""
-import sys; sys.path.insert(0, "/app/kit/checks")
+import sys, time; sys.path.insert(0, "/app/kit/checks")
 from wd import App
 a = App()
 try:
@@ -10,4 +10,9 @@ try:
     print("no native commands ok")
     a.type("//input[@aria-label='Project folder']", "/app/examples/shop"); a.btn("Open folder"); a.find("//nav[@aria-label='Sections']", 20); a.find("//button[contains(.,'add a mug (weak)')]", 20); a.shot("2-tests"); print("project ok")
     a.click("//summary[@aria-label='Menu']"); a.btn("About Breakwright"); a.find("//dialog//h2"); assert a.js("return document.activeElement.textContent") == "Close"; a.shot("3-about"); a.btn("Close"); print("about ok")
+    a.click("//summary[@aria-label='Menu']"); a.click("//div[contains(@class,'k-segmented')]//label[normalize-space(.)='Dark']"); assert a.js("return document.documentElement.dataset.theme") == "dark"
+    port = a.js("return location.port"); a.close(); time.sleep(2)
+    # settings live in the page's storage, so a restart must come back on the same address
+    a = App(); a.find("//input[@aria-label='Project folder']", 30); assert a.js("return location.port") == port, "new port after a restart"
+    assert a.js("return document.documentElement.dataset.theme") == "dark", "theme not kept"; a.shot("4-restart"); print("restart keeps the theme ok")
 finally: a.close()

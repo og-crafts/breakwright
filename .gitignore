@@ -5,4 +5,6 @@ playwright-report
 .breakwright
 src-tauri/target
 src-tauri/gen
-STATUS.md
+STATUS*.md
+target
+.desk

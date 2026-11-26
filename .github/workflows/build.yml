@@ -33,10 +33,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with: { node-version: '${{ matrix.node }}', cache: npm }
+      - run: python3 kit/checks/verify.py
+        if: runner.os == 'Linux'
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run build
       - run: npm test
+      - run: npx vitest run
 
   desktop:
     needs: test
@@ -61,7 +64,6 @@ jobs:
           toolchain: stable
           targets: ${{ matrix.targets }}
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
-        with: { workspaces: src-tauri }
       - name: Linux packages
         if: matrix.name == 'linux'
         run: |
@@ -75,9 +77,9 @@ jobs:
           name: breakwright-${{ matrix.name }}
           if-no-files-found: error
           path: |
-            src-tauri/target/**/release/bundle/nsis/*.exe
-            src-tauri/target/**/release/bundle/deb/*.deb
-            src-tauri/target/**/release/bundle/dmg/*.dmg
+            target/**/release/bundle/nsis/*.exe
+            target/**/release/bundle/deb/*.deb
+            target/**/release/bundle/dmg/*.dmg
       - name: Attach to a draft release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
@@ -85,6 +87,6 @@ jobs:
           draft: true
           prerelease: ${{ contains(github.ref_name, '-') }}
           files: |
-            src-tauri/target/**/release/bundle/nsis/*.exe
-            src-tauri/target/**/release/bundle/deb/*.deb
-            src-tauri/target/**/release/bundle/dmg/*.dmg
+            target/**/release/bundle/nsis/*.exe
+            target/**/release/bundle/deb/*.deb
+            target/**/release/bundle/dmg/*.dmg

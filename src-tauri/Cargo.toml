@@ -6,8 +6,8 @@ license = "MIT"
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 [dependencies]
+ogc-kit = { path = "../kit/rust" }
 tauri = { version = "2", features = [] }
 serde_json = "1"
-[profile.release]
-opt-level = "s"
-strip = true
+[features]
+custom-protocol = ["tauri/custom-protocol"]

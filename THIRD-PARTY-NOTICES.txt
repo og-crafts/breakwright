@@ -1,0 +1,2 @@
+Breakwright bundles the Manrope font, Copyright 2018 The Manrope Project Authors, under the SIL Open Font License 1.1
+(https://openfontlicense.org). Other packages keep their own licences; list here every one that asks for a notice.
